@@ -74,33 +74,33 @@
     <h2 id="ai-title" class="sec-title"><span class="section-label" data-i18n="ai.title">AI orchestration · what I build now</span><span class="lounge-label" data-i18n="lounge.ai">House specials: AI orchestration</span></h2>
     <p class="sec-note" data-i18n="ai.note">Selected AI automation work. These are internal tools, so they're described by what they do, not how they're built.</p>
     <div class="cards cards--large">
-      <article class="card card--large">
+      <article id="fs-issue-to-pr" class="card card--large">
         <h3 data-i18n="ai.issue.title">Issue in, reviewed PR out</h3>
         <p data-i18n="ai.issue.body">An agent pipeline that reads a ticket, plans, implements, tests and reviews its own diff in the right codebase, then opens a draft pull request. One engine for backend, web and mobile codebases. A human approves the plan and the PR; it never merges.</p>
       </article>
-      <article class="card card--large">
+      <article id="fs-cockpit" class="card card--large">
         <h3 data-i18n="ai.cockpit.title">"Press play" cockpit</h3>
         <p data-i18n="ai.cockpit.body">A web console on top of that pipeline: pick an issue, read and edit the plan, approve it, and watch the run stream live.</p>
       </article>
-      <article class="card card--large">
+      <article id="fs-long-shift" class="card card--large">
         <h3 data-i18n="ai.shift.title">The long shift</h3>
         <p data-i18n="ai.shift.body">A long-running agent session: it takes open PRs to green, drafts reviews for a human to sign off, picks new work by explicit criteria and leaves a report at the end. It never merges, and anything irreversible waits for a human.</p>
       </article>
     </div>
     <div class="cards cards--compact">
-      <article class="card">
+      <article id="fs-spec-driven" class="card">
         <h3 data-i18n="ai.spec.title">Spec-driven planning</h3>
         <p data-i18n="ai.spec.body">A planning flow that sizes itself to the task, from discovery to a written spec and a set of tasks, then hands execution to the agents above and keeps the outcome in view after launch.</p>
       </article>
-      <article class="card">
+      <article id="fs-error-janitor" class="card">
         <h3 data-i18n="ai.janitor.title">Error janitor</h3>
         <p data-i18n="ai.janitor.body">Reads production error telemetry, dedupes by stack trace, separates user-facing bugs from noise, ranks what's left by frequency, impact and simplicity, and files ready-to-work issues.</p>
       </article>
-      <article class="card">
+      <article id="fs-support-copilots" class="card">
         <h3 data-i18n="ai.support.title">Support copilots</h3>
         <p data-i18n="ai.support.body">Agents that write help-center articles by checking every step in a staging environment, and that investigate support tickets end to end, gathering read-only evidence before drafting the answer.</p>
       </article>
-      <article class="card">
+      <article id="fs-pr-risk-triage" class="card">
         <h3><span data-i18n="ai.triage.title">PR risk triage</span> <small class="card-note" data-i18n="ai.triage.cobuilt">(co-built)</small></h3>
         <p data-i18n="ai.triage.body">A GitHub Action that labels every pull request low, medium or high risk from signals in the diff, so reviewers know where to look first.</p>
       </article>
@@ -109,13 +109,13 @@
 
   <section id="building" class="sec" aria-labelledby="building-title">
     <h2 id="building-title" class="sec-title"><span class="section-label" data-i18n="building.title">Now building</span><span class="lounge-label" data-i18n="lounge.building">Chef's project</span></h2>
-    <article class="feature">
+    <article id="fs-maitre" class="feature">
       <h3><a href="https://github.com/danielrdg/maitre">maître ↗</a></h3>
       <p class="feature-tag" data-i18n="building.maitre-tag">your agents' lounge</p>
       <p data-i18n="building.maitre-body">A terminal orchestrator for Claude Code agents, with a pixel-art lounge where you watch them work. The plan: you write every request in one place, and each topic gets its own room, a real Claude Code session in its own git worktree, on the model that fits the job. A janitor will close idle rooms without ever losing work, and the one agent that needs you will ring the bell.</p>
       <p data-i18n="building.maitre-status">It's early: the first milestone, a demo of the lounge, is on its way. Open source, MIT.</p>
     </article>
-    <article class="side">
+    <article id="fs-elysium" class="side">
       <h3><span data-i18n="building.side">Side project:</span> <a href="https://github.com/danielrdg/elysium">elysium ↗</a></h3>
       <p data-i18n="building.elysium">The 24 voices of Disco Elysium as a Claude skill: one of them takes over Claude's voice for a few turns, then hands the mic to the next.</p>
     </article>
@@ -124,7 +124,7 @@
   <section id="experience" class="sec" aria-labelledby="experience-title">
     <h2 id="experience-title" class="sec-title"><span class="section-label" data-i18n="experience.title">Experience</span><span class="lounge-label" data-i18n="lounge.experience">Previous courses</span></h2>
     <ol class="timeline">
-      <li class="tl-item">
+      <li id="fs-aegro-engineer" class="tl-item">
         <p class="tl-date" data-i18n="experience.eng.dates">May 2026 – present</p>
         <div class="tl-body">
           <h3><span data-i18n="experience.eng.role">Software Engineer I</span> <span class="tl-org">· Aegro</span></h3>
@@ -136,7 +136,7 @@
           </ul>
         </div>
       </li>
-      <li class="tl-item">
+      <li id="fs-aegro-intern" class="tl-item">
         <p class="tl-date" data-i18n="experience.intern.dates">Mar 2025 – May 2026</p>
         <div class="tl-body">
           <h3><span data-i18n="experience.intern.role">Full-Stack Software Development Intern</span> <span class="tl-org">· Aegro</span></h3>
@@ -155,7 +155,7 @@
     <h2 id="academic-title" class="sec-title"><span class="section-label" data-i18n="academic.title">Academic projects</span><span class="lounge-label" data-i18n="lounge.academic">Early tastings</span></h2>
     <p class="sec-note" data-i18n="academic.agency">PUCRS Experimental Software Agency</p>
     <ol class="timeline">
-      <li class="tl-item">
+      <li id="fs-iacc" class="tl-item">
         <p class="tl-date" data-i18n="academic.iacc.dates">Mar 2024 – Nov 2024</p>
         <div class="tl-body">
           <h3>IACC <span class="tl-org">· <span data-i18n="academic.iacc.name">clinical skills assessment</span></span></h3>
@@ -165,7 +165,7 @@
           </ul>
         </div>
       </li>
-      <li class="tl-item">
+      <li id="fs-histoteria" class="tl-item">
         <p class="tl-date" data-i18n="academic.histo.dates">Aug 2023 – Jul 2024</p>
         <div class="tl-body">
           <h3>Histotéria</h3>
