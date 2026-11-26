@@ -78,6 +78,18 @@ const EN = {
   'hint.bell': 'Open the devtools console. Someone left a note.',
   'hint.all': 'All nine found. The lounge is yours.',
 
+  'room.ai': 'Chalkboard: house specials',
+  'room.experience': 'Menu: the career',
+  'room.building': 'Poster: tonight on stage',
+  'room.academic': 'Tray: the research',
+  'room.education': 'Diploma: the credentials',
+  'room.skills': 'Jukebox: the pantry',
+  'room.contact': 'Door: say hello',
+  'room.bell': 'Bell: ring for service',
+  'room.enter': 'Open',
+  'room.hint': 'click or tab through the room · esc to leave',
+  'room.close': 'Close',
+
   'console.signature': SIGNATURE,
 };
 
@@ -148,6 +160,18 @@ const PT = {
   'hint.night': 'Volte depois das 22h ou antes das 6h, no seu horário local.',
   'hint.bell': 'Abra o console do devtools. Alguém deixou um recado.',
   'hint.all': 'Os nove encontrados. O lounge é seu.',
+
+  'room.ai': 'Quadro: especiais da casa',
+  'room.experience': 'Cardápio: a carreira',
+  'room.building': 'Cartaz: hoje no palco',
+  'room.academic': 'Bandeja: a pesquisa',
+  'room.education': 'Diploma: a formação',
+  'room.skills': 'Jukebox: a despensa',
+  'room.contact': 'Porta: diga oi',
+  'room.bell': 'Sino: chame o garçom',
+  'room.enter': 'Abrir',
+  'room.hint': 'clique ou use tab pelo salão · esc pra sair',
+  'room.close': 'Fechar',
 
   'console.signature': SIGNATURE_PT,
 };
