@@ -1,5 +1,5 @@
 import { runCommand } from './commands.js';
-import { complete } from './complete.js';
+import { tabAction } from './complete.js';
 import { t } from './copy.js';
 import { safe } from './safe.js';
 
@@ -70,17 +70,20 @@ export function initPrompt({ tracker, getLang, effects = {} }) {
   }
 
   if (input) {
+    let lastListedFor = null;
+    input.addEventListener('input', () => { lastListedFor = null; });
     input.addEventListener('keydown', (e) => {
-      if (e.key !== 'Tab' || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+      if (e.key !== 'Tab' || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey || e.isComposing) return;
       safe('prompt.complete', () => {
-        const { value, candidates } = complete(input.value);
-        if (candidates.length === 0) return;
+        const action = tabAction(input.value, lastListedFor);
+        if (action.kind === 'pass') return;
         e.preventDefault();
-        if (value !== input.value) {
-          input.value = value;
-          input.setSelectionRange(value.length, value.length);
-        } else if (candidates.length > 1) {
-          print(candidates.join('  '));
+        if (action.kind === 'complete') {
+          input.value = action.value;
+          input.setSelectionRange(action.value.length, action.value.length);
+        } else {
+          lastListedFor = input.value;
+          print(action.candidates.join('  '));
         }
       });
     });

@@ -21,3 +21,11 @@ export function complete(input) {
   if (candidates.length === 0) return { value: input, candidates: [] };
   return { value: commonPrefix(candidates), candidates };
 }
+
+export function tabAction(input, lastListedFor) {
+  const { value, candidates } = complete(input);
+  if (candidates.length === 0) return { kind: 'pass' };
+  if (value !== input) return { kind: 'complete', value, candidates };
+  if (candidates.length > 1 && lastListedFor !== input) return { kind: 'list', candidates };
+  return { kind: 'pass' };
+}

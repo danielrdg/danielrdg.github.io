@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { complete, COMPLETIONS } from '../js/complete.js';
+import { complete, tabAction, COMPLETIONS } from '../js/complete.js';
 import { runCommand } from '../js/commands.js';
 import { t } from '../js/copy.js';
 
@@ -56,4 +56,22 @@ test('every completion is a real command', () => {
     const notFound = { lines: t('en', 'cmd.notfound', { input: entry }).split('\n') };
     assert.notDeepEqual(res.lines, notFound.lines, entry);
   }
+});
+
+test('tabAction never traps focus', () => {
+  for (const c of COMPLETIONS) assert.equal(tabAction(c, null).kind, 'pass', c);
+  assert.equal(tabAction('', null).kind, 'pass');
+  assert.equal(tabAction('/lo', null).kind, 'pass');
+  assert.equal(tabAction('xyz', null).kind, 'pass');
+  assert.equal(tabAction(5, null).kind, 'pass');
+});
+
+test('tabAction completes, lists once, then passes', () => {
+  assert.deepEqual(tabAction('he', null), { kind: 'complete', value: 'help', candidates: ['help'] });
+  assert.equal(tabAction('ca', null).kind, 'complete');
+  const list = tabAction('c', null);
+  assert.equal(list.kind, 'list');
+  assert.equal(list.candidates.length, 5);
+  assert.equal(tabAction('c', 'c').kind, 'pass');
+  assert.equal(tabAction('c', 'cat ').kind, 'list');
 });
