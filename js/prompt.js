@@ -1,4 +1,5 @@
 import { runCommand } from './commands.js';
+import { tabAction } from './complete.js';
 import { t } from './copy.js';
 import { safe } from './safe.js';
 
@@ -65,6 +66,26 @@ export function initPrompt({ tracker, getLang, effects = {} }) {
       const raw = input.value;
       input.value = '';
       safe('prompt.submit', () => submit(raw));
+    });
+  }
+
+  if (input) {
+    let lastListedFor = null;
+    input.addEventListener('input', () => { lastListedFor = null; });
+    input.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab' || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey || e.isComposing) return;
+      safe('prompt.complete', () => {
+        const action = tabAction(input.value, lastListedFor);
+        if (action.kind === 'pass') return;
+        e.preventDefault();
+        if (action.kind === 'complete') {
+          input.value = action.value;
+          input.setSelectionRange(action.value.length, action.value.length);
+        } else {
+          lastListedFor = input.value;
+          print(action.candidates.join('  '));
+        }
+      });
     });
   }
 
