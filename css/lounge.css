@@ -1,0 +1,134 @@
+/* Lounge skin. Screen only: printing from the lounge falls back to the plain résumé. */
+
+@media screen {
+  html.lounge {
+    --paper: #f3e6cf;
+    --paper-ink: #140b08;
+    --paper-note: #7a4a1f;
+    --paper-rose: #9c2f5b;
+    --paper-rule: #c9a36b;
+    --neon: #fff0f6;
+    background: var(--lacquer);
+  }
+
+  html.lounge body {
+    background-color: var(--lacquer);
+    background-image:
+      linear-gradient(90deg, transparent 47px, rgba(217, 164, 65, .35) 47px, rgba(217, 164, 65, .35) 50px, transparent 50px),
+      linear-gradient(0deg, transparent 47px, rgba(217, 164, 65, .35) 47px, rgba(217, 164, 65, .35) 50px, transparent 50px);
+    background-size: 50px 50px;
+  }
+
+  /* menu labels: same headings, menu wording */
+
+  html.lounge .section-label { display: none; }
+  html.lounge .lounge-label { display: inline; }
+
+  /* status bar controls that only exist in the lounge */
+
+  html.lounge #lights-on { border-color: var(--gold); color: var(--light); }
+  html.lounge #bell { border-color: var(--pink); color: var(--cream); }
+  html.lounge #lights-on:hover, html.lounge #bell:hover { background: var(--lacquer); }
+
+  html.lounge #bell.bell--ringing { border-color: var(--light); color: var(--light); background: var(--lacquer); }
+
+  /* opaque backing for everything that is not menu paper: no text on the lattice */
+
+  html.lounge #run { background: var(--ink); }
+
+  html.lounge .hero {
+    margin: 28px 0 32px;
+    padding: 28px;
+    background: var(--ink);
+    border: 4px double var(--gold);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+
+  html.lounge #hero-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  #neon-sign {
+    display: inline-block;
+    margin: 0 0 6px;
+    padding: 10px 16px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(34px, 6vw, 60px);
+    line-height: 1;
+    color: var(--neon);
+    background: rgba(20, 11, 8, .7);
+    border: 3px solid var(--pink);
+    box-shadow: 0 0 14px var(--pink), inset 0 0 14px var(--pink);
+    text-shadow: 0 0 4px #fff, 0 0 10px var(--pink), 0 0 22px var(--pink), 0 0 40px var(--pink);
+  }
+
+  html.lounge .footer {
+    margin-bottom: 28px;
+    padding: 18px 20px;
+    background: var(--ink);
+    border: 2px solid var(--gold);
+  }
+
+  html.lounge #light-switch::after { top: auto; bottom: 2px; background: var(--mute); }
+
+  /* sections as cream menu paper: remap the dark-theme tokens to ink on paper */
+
+  html.lounge .sec {
+    --cream: #3a130f;
+    --light: #3a130f;
+    --soft: var(--paper-ink);
+    --gold: var(--paper-note);
+    --mute: var(--paper-note);
+    --pink: var(--paper-rose);
+    --lacquer: var(--paper-rule);
+    margin: 0 0 28px;
+    padding: 22px 26px 26px;
+    color: var(--paper-ink);
+    background: var(--paper);
+    border: 4px double #d9a441;
+    box-shadow: 6px 6px 0 var(--paper-ink);
+  }
+
+  html.lounge .sec .sec-title { color: var(--paper-rose); }
+  html.lounge .sec .sec-title::after { border-top-style: dotted; }
+  html.lounge .sec a { color: #3a130f; }
+  html.lounge .sec a:hover { color: var(--paper-rose); }
+  html.lounge .sec :focus-visible { outline-color: var(--paper-rose); }
+  html.lounge .sec .card--large { box-shadow: 4px 4px 0 var(--paper-rule); }
+  html.lounge .sec .feature { box-shadow: 4px 4px 0 var(--paper-rule); }
+
+  @keyframes neon-flicker {
+    0%, 19%, 22%, 62%, 64%, 100% { opacity: 1; }
+    20%, 63% { opacity: .55; }
+  }
+
+  @keyframes bell-ring {
+    0%, 100% { transform: rotate(0); }
+    20% { transform: rotate(-12deg); }
+    40% { transform: rotate(10deg); }
+    60% { transform: rotate(-6deg); }
+    80% { transform: rotate(4deg); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html.lounge #neon-sign { animation: neon-flicker 4s infinite; }
+    #bell.bell--ringing { animation: bell-ring .8s steps(5) 1; }
+  }
+
+  @media (max-width: 719.98px) {
+    html.lounge .hero { margin: 16px 0 20px; padding: 18px 16px; box-shadow: 4px 4px 0 var(--ink); }
+    html.lounge .sec { margin-bottom: 20px; padding: 16px 14px 18px; box-shadow: 4px 4px 0 var(--paper-ink); }
+    #neon-sign { font-size: 36px; padding: 8px 12px; }
+    html.lounge .footer { flex-wrap: wrap; padding: 14px 16px; }
+  }
+}
+
+@media print {
+  html.lounge :is(#lights-on, #bell, #neon-sign) { display: none !important; }
+}

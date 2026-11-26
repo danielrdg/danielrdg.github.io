@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{var q=new URLSearchParams(location.search).get('lang'),s=null;try{s=localStorage.getItem('lang')}catch(e){}var l=(q==='pt'||q==='en')?q:(s==='pt'?'pt':'en');document.documentElement.lang=l==='pt'?'pt-BR':'en';document.documentElement.dataset.lang=l;document.documentElement.classList.add('js')}catch(e){}</script>
+<title>Daniel Rodrigues: multi-agent orchestration &amp; AI harness</title>
+<meta name="description" content="Daniel Rodrigues, full-stack software engineer building multi-agent orchestration and AI harness at Aegro. Résumé, AI orchestration work and projects.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#140b08">
+<link rel="canonical" href="https://danielrdg.github.io/">
+<link rel="icon" type="image/png" href="assets/img/avatar-48.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://danielrdg.github.io/">
+<meta property="og:title" content="Daniel Rodrigues: multi-agent orchestration &amp; AI harness">
+<meta property="og:description" content="Full-stack software engineer building multi-agent orchestration and AI harness at Aegro.">
+<meta property="og:image" content="https://danielrdg.github.io/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pixel avatar and the name Daniel Rodrigues on a dark red and gold palette.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Daniel Rodrigues: multi-agent orchestration &amp; AI harness">
+<meta name="twitter:description" content="Full-stack software engineer building multi-agent orchestration and AI harness at Aegro.">
+<meta name="twitter:image" content="https://danielrdg.github.io/assets/img/og.png">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/lounge.css">
+<link rel="stylesheet" href="css/print.css" media="print">
+</head>
+<body>
+
+<header id="status" class="status">
+  <div class="status-run">
+    <span class="status-dot" aria-hidden="true">●</span>
+    <span class="status-text" data-i18n="status.complete">run complete</span>
+    <span class="status-sep" aria-hidden="true">·</span>
+    <button type="button" class="agent-chip" data-agent="planner">planner <span aria-hidden="true">✓</span></button>
+    <button type="button" class="agent-chip" data-agent="builder">builder <span aria-hidden="true">✓</span></button>
+    <button type="button" class="agent-chip" data-agent="reviewer">reviewer <span aria-hidden="true">✓</span></button>
+    <span class="status-sep js-only" aria-hidden="true">·</span>
+    <button type="button" id="replay-btn" class="status-link js-only"><span data-i18n="status.replay">replay</span> ↻</button>
+  </div>
+  <div class="status-tools">
+    <button type="button" id="lights-on" class="chip"><span data-i18n="lounge.lights-on">lights on</span></button>
+    <button type="button" id="bell" class="chip"><span data-i18n="lounge.bell">ring the bell</span></button>
+    <div class="lang-switch js-only" role="group" aria-label="Language" data-i18n-attr="aria-label:a11y.language">
+      <button type="button" id="lang-en" class="chip" aria-pressed="true">EN</button>
+      <button type="button" id="lang-pt" class="chip" aria-pressed="false">PT</button>
+    </div>
+    <button type="button" id="cv-btn" class="chip js-only">↓ CV</button>
+  </div>
+</header>
+
+<div id="run" aria-hidden="true"></div>
+
+<main id="top">
+
+  <section id="hero" class="hero" aria-labelledby="hero-name">
+    <img class="avatar" src="assets/img/avatar-480.png" width="150" height="150" alt="Pixel-art avatar of Daniel Rodrigues" data-i18n-attr="alt:a11y.avatar">
+    <div class="hero-body">
+      <div id="neon-sign" aria-hidden="true">Daniel<br>Rodrigues</div>
+      <h1 id="hero-name">Daniel Rodrigues</h1>
+      <p class="tagline" data-i18n="hero.tagline">Full-stack software engineer building multi-agent orchestration and AI harness at Aegro</p>
+      <p class="lead" data-i18n="hero.lead">Based in Porto Alegre, Brazil. I work on the engine, guardrails and workflows that let coding agents plan, implement, test and review changes across several codebases, with human approval at the points that matter. Hands-on across the stack: Angular and TypeScript on the front end, Java and Spring Boot on the back end, PostgreSQL and MongoDB for data.</p>
+      <ul class="cta">
+        <li><a class="btn" href="https://www.linkedin.com/in/danielrdgg">LinkedIn</a></li>
+        <li><a class="btn" href="mailto:dani.araujo2002@gmail.com"><span data-i18n="hero.email">Email</span></a></li>
+        <li><a class="btn btn--ghost" href="https://github.com/danielrdg">GitHub</a></li>
+        <li><a class="btn btn--ghost" href="https://github.com/danielrdg/maitre">maître ↗</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="ai" class="sec" aria-labelledby="ai-title">
+    <h2 id="ai-title" class="sec-title"><span class="section-label" data-i18n="ai.title">AI orchestration · what I build now</span><span class="lounge-label" data-i18n="lounge.ai">House specials: AI orchestration</span></h2>
+    <p class="sec-note" data-i18n="ai.note">Selected AI automation work. These are internal tools, so they're described by what they do, not how they're built.</p>
+    <div class="cards cards--large">
+      <article class="card card--large">
+        <h3 data-i18n="ai.issue.title">Issue in, reviewed PR out</h3>
+        <p data-i18n="ai.issue.body">An agent pipeline that reads a ticket, plans, implements, tests and reviews its own diff in the right codebase, then opens a draft pull request. One engine for backend, web and mobile codebases. A human approves the plan and the PR; it never merges.</p>
+      </article>
+      <article class="card card--large">
+        <h3 data-i18n="ai.cockpit.title">"Press play" cockpit</h3>
+        <p data-i18n="ai.cockpit.body">A web console on top of that pipeline: pick an issue, read and edit the plan, approve it, and watch the run stream live.</p>
+      </article>
+      <article class="card card--large">
+        <h3 data-i18n="ai.shift.title">The long shift</h3>
+        <p data-i18n="ai.shift.body">A long-running agent session: it takes open PRs to green, drafts reviews for a human to sign off, picks new work by explicit criteria and leaves a report at the end. It never merges, and anything irreversible waits for a human.</p>
+      </article>
+    </div>
+    <div class="cards cards--compact">
+      <article class="card">
+        <h3 data-i18n="ai.spec.title">Spec-driven planning</h3>
+        <p data-i18n="ai.spec.body">A planning flow that sizes itself to the task, from discovery to a written spec and a set of tasks, then hands execution to the agents above and keeps the outcome in view after launch.</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="ai.janitor.title">Error janitor</h3>
+        <p data-i18n="ai.janitor.body">Reads production error telemetry, dedupes by stack trace, separates user-facing bugs from noise, ranks what's left by frequency, impact and simplicity, and files ready-to-work issues.</p>
+      </article>
+      <article class="card">
+        <h3 data-i18n="ai.support.title">Support copilots</h3>
+        <p data-i18n="ai.support.body">Agents that write help-center articles by checking every step in a staging environment, and that investigate support tickets end to end, gathering read-only evidence before drafting the answer.</p>
+      </article>
+      <article class="card">
+        <h3><span data-i18n="ai.triage.title">PR risk triage</span> <small class="card-note" data-i18n="ai.triage.cobuilt">(co-built)</small></h3>
+        <p data-i18n="ai.triage.body">A GitHub Action that labels every pull request low, medium or high risk from signals in the diff, so reviewers know where to look first.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="building" class="sec" aria-labelledby="building-title">
+    <h2 id="building-title" class="sec-title"><span class="section-label" data-i18n="building.title">Now building</span><span class="lounge-label" data-i18n="lounge.building">Chef's project</span></h2>
+    <article class="feature">
+      <h3><a href="https://github.com/danielrdg/maitre">maître ↗</a></h3>
+      <p class="feature-tag" data-i18n="building.maitre-tag">your agents' lounge</p>
+      <p data-i18n="building.maitre-body">A terminal orchestrator for Claude Code agents, with a pixel-art lounge where you watch them work. The plan: you write every request in one place, and each topic gets its own room, a real Claude Code session in its own git worktree, on the model that fits the job. A janitor will close idle rooms without ever losing work, and the one agent that needs you will ring the bell.</p>
+      <p data-i18n="building.maitre-status">It's early: the first milestone, a demo of the lounge, is on its way. Open source, MIT.</p>
+    </article>
+    <article class="side">
+      <h3><span data-i18n="building.side">Side project:</span> <a href="https://github.com/danielrdg/elysium">elysium ↗</a></h3>
+      <p data-i18n="building.elysium">The 24 voices of Disco Elysium as a Claude skill: one of them takes over Claude's voice for a few turns, then hands the mic to the next.</p>
+    </article>
+  </section>
+
+  <section id="experience" class="sec" aria-labelledby="experience-title">
+    <h2 id="experience-title" class="sec-title"><span class="section-label" data-i18n="experience.title">Experience</span><span class="lounge-label" data-i18n="lounge.experience">Previous courses</span></h2>
+    <ol class="timeline">
+      <li class="tl-item">
+        <p class="tl-date" data-i18n="experience.eng.dates">May 2026 – present</p>
+        <div class="tl-body">
+          <h3><span data-i18n="experience.eng.role">Software Engineer I</span> <span class="tl-org">· Aegro</span></h3>
+          <ul class="bullets">
+            <li data-i18n="experience.eng.b1">Build generative AI solutions for engineering productivity and standardized engineering workflows.</li>
+            <li data-i18n="experience.eng.b2">Create and evolve agents, skills, automations, technical standards and structured context for large language models (LLMs).</li>
+            <li data-i18n="experience.eng.b3">Help structure the AI Harness and the consistent adoption of AI tools across engineering teams.</li>
+            <li data-i18n="experience.eng.b4">Implement fiscal rules and evolve Java, Spring Boot, Angular and MongoDB applications for Brazil's tax reform initiatives.</li>
+          </ul>
+        </div>
+      </li>
+      <li class="tl-item">
+        <p class="tl-date" data-i18n="experience.intern.dates">Mar 2025 – May 2026</p>
+        <div class="tl-body">
+          <h3><span data-i18n="experience.intern.role">Full-Stack Software Development Intern</span> <span class="tl-org">· Aegro</span></h3>
+          <ul class="bullets">
+            <li data-i18n="experience.intern.b1">Expanded the number of public API endpoints available to customers, partners and external integrations by 50%.</li>
+            <li data-i18n="experience.intern.b2">Built and maintained REST APIs with Java, Spring Boot and MongoDB.</li>
+            <li data-i18n="experience.intern.b3">Implemented Angular and TypeScript interfaces for full-stack features.</li>
+            <li data-i18n="experience.intern.b4">Worked on the Public API and Fiscal teams, contributing to external integrations and compliance with Brazil's tax reform.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="academic" class="sec" aria-labelledby="academic-title">
+    <h2 id="academic-title" class="sec-title"><span class="section-label" data-i18n="academic.title">Academic projects</span><span class="lounge-label" data-i18n="lounge.academic">Early tastings</span></h2>
+    <p class="sec-note" data-i18n="academic.agency">PUCRS Experimental Software Agency</p>
+    <ol class="timeline">
+      <li class="tl-item">
+        <p class="tl-date" data-i18n="academic.iacc.dates">Mar 2024 – Nov 2024</p>
+        <div class="tl-body">
+          <h3>IACC <span class="tl-org">· <span data-i18n="academic.iacc.name">clinical skills assessment</span></span></h3>
+          <ul class="bullets">
+            <li data-i18n="academic.iacc.b1">Developed a cross-platform React Native app for dentistry professors' lab assessments.</li>
+            <li data-i18n="academic.iacc.b2">Built the backend in Java 21 and Spring Boot with PostgreSQL, Docker and AWS.</li>
+          </ul>
+        </div>
+      </li>
+      <li class="tl-item">
+        <p class="tl-date" data-i18n="academic.histo.dates">Aug 2023 – Jul 2024</p>
+        <div class="tl-body">
+          <h3>Histotéria</h3>
+          <ul class="bullets">
+            <li data-i18n="academic.histo.b1">Developed an educational game to engage and assess high-school history students.</li>
+            <li data-i18n="academic.histo.b2">Implemented the core logic and REST endpoints in .NET with MongoDB, Docker and AWS.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="education" class="sec" aria-labelledby="education-title">
+    <h2 id="education-title" class="sec-title"><span class="section-label" data-i18n="education.title">Education</span><span class="lounge-label" data-i18n="lounge.education">Kitchen school</span></h2>
+    <ol class="timeline">
+      <li class="tl-item">
+        <p class="tl-date">2022–2026</p>
+        <div class="tl-body">
+          <h3><span data-i18n="education.degree">B.Sc. Software Engineering</span> <span class="tl-org">· PUCRS</span></h3>
+          <p data-i18n="education.school">Pontifical Catholic University of Rio Grande do Sul</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="skills" class="sec" aria-labelledby="skills-title">
+    <h2 id="skills-title" class="sec-title"><span class="section-label" data-i18n="skills.title">Skills</span><span class="lounge-label" data-i18n="lounge.skills">Pantry</span></h2>
+    <dl class="skills">
+      <div class="skill-group skill-group--ai">
+        <dt data-i18n="skills.ai">Generative AI</dt>
+        <dd><ul class="chips">
+          <li data-i18n="skills.agents">AI agents</li>
+          <li>LLMs</li>
+          <li>prompt engineering</li>
+          <li>context engineering</li>
+          <li>harness</li>
+          <li>skills</li>
+          <li data-i18n="skills.automations">automations</li>
+        </ul></dd>
+      </div>
+      <div class="skill-group">
+        <dt data-i18n="skills.languages">Languages</dt>
+        <dd><ul class="chips">
+          <li>Java</li><li>TypeScript</li><li>JavaScript</li><li>SQL</li><li>C#</li>
+        </ul></dd>
+      </div>
+      <div class="skill-group">
+        <dt>Backend</dt>
+        <dd><ul class="chips">
+          <li>Spring Boot</li><li data-i18n="skills.rest">REST APIs</li><li>OpenAPI/Swagger</li><li>JUnit</li><li>Mockito</li><li>.NET</li>
+        </ul></dd>
+      </div>
+      <div class="skill-group">
+        <dt>Frontend</dt>
+        <dd><ul class="chips">
+          <li>Angular</li><li>React Native</li><li>React</li>
+        </ul></dd>
+      </div>
+      <div class="skill-group">
+        <dt data-i18n="skills.data">Data &amp; infra</dt>
+        <dd><ul class="chips">
+          <li>MongoDB</li><li>PostgreSQL</li><li>AWS</li><li>Docker</li>
+        </ul></dd>
+      </div>
+      <div class="skill-group">
+        <dt data-i18n="skills.tools">Tools</dt>
+        <dd><ul class="chips">
+          <li>Git</li><li>GitHub</li><li>GitLab</li><li>Gradle</li><li>CI/CD</li>
+        </ul></dd>
+      </div>
+      <div class="skill-group">
+        <dt data-i18n="skills.spoken">Spoken languages</dt>
+        <dd><ul class="chips">
+          <li data-i18n="skills.english">English (technical)</li>
+        </ul></dd>
+      </div>
+    </dl>
+  </section>
+
+  <section id="contact" class="sec" aria-labelledby="contact-title">
+    <h2 id="contact-title" class="sec-title"><span class="section-label" data-i18n="contact.title">Contact</span><span class="lounge-label" data-i18n="lounge.contact">Ask the maître</span></h2>
+    <ul class="contact-list">
+      <li><span class="contact-key" data-i18n="contact.email">Email</span> <a href="mailto:dani.araujo2002@gmail.com">dani.araujo2002@gmail.com</a></li>
+      <li><span class="contact-key">LinkedIn</span> <a href="https://www.linkedin.com/in/danielrdgg">linkedin.com/in/danielrdgg</a></li>
+      <li><span class="contact-key">GitHub</span> <a href="https://github.com/danielrdg">github.com/danielrdg</a></li>
+      <li><span class="contact-key" data-i18n="contact.site">Site</span> <a href="https://danielrdg.github.io/">danielrdg.github.io</a></li>
+      <li><span class="contact-key" data-i18n="contact.based">Based in</span> <span data-i18n="contact.city">Porto Alegre, Brazil</span></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p><span data-i18n="footer.credit">Pixel art and code by Daniel.</span> <span data-i18n="footer.fonts">Fonts under the SIL Open Font License:</span> <a href="assets/fonts/OFL-PixelifySans.txt">Pixelify Sans</a>, <a href="assets/fonts/OFL-Silkscreen.txt">Silkscreen</a>, <a href="assets/fonts/OFL-JetBrainsMono.txt">JetBrains Mono</a>.</p>
+  <button type="button" id="light-switch" class="js-only" aria-label="Turn off the lights" data-i18n-attr="aria-label:a11y.lights"></button>
+</footer>
+
+<button type="button" id="prompt-toggle" class="js-only" aria-controls="prompt" aria-expanded="false" aria-label="Open the terminal" data-i18n-attr="aria-label:a11y.terminal">&gt;_</button>
+
+<form id="prompt" class="prompt js-only" autocomplete="off">
+  <label for="prompt-input" class="prompt-label" data-i18n="prompt.label">Type a command (try help)</label>
+  <div id="prompt-log" role="log" aria-live="polite"></div>
+  <div class="prompt-line">
+    <span class="prompt-ps" aria-hidden="true">daniel@portfolio:~$</span>
+    <input id="prompt-input" type="text" autocomplete="off" spellcheck="false" autocapitalize="off">
+    <span class="prompt-hint"><span data-i18n="prompt.type">type</span> <kbd>help</kbd> · <span data-i18n="prompt.eggs">eggs found</span> <span id="egg-count">0/9</span></span>
+  </div>
+</form>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

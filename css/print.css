@@ -1,0 +1,113 @@
+/* Print: the plain résumé in the current language. Linked with media="print"; site.css is not
+   screen-scoped and its max-width: 719.98px block also matches paper, so layout is set explicitly. */
+
+@page { margin: 14mm 16mm; }
+
+*, *::before, *::after {
+  color: #000 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+html, body {
+  background: #fff !important;
+  color: #000 !important;
+  color-scheme: light;
+}
+
+html.js body, body {
+  margin: 0;
+  padding: 0 !important;
+  font: 10.5pt/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+body * { font-family: inherit !important; }
+
+/* no chrome, no eggs, no lounge */
+
+#run, #status, #prompt, #prompt-toggle, footer button, #neon-sign, #bell, #lights-on,
+.egg-layer, #long-shift, .js-only, .cta, .avatar {
+  display: none !important;
+}
+
+.section-label { display: inline !important; }
+.lounge-label { display: none !important; }
+html.lounge body { background-image: none !important; }
+#hero-name {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  clip-path: none !important;
+  white-space: normal !important;
+}
+
+/* layout */
+
+main { max-width: none; margin: 0; padding: 0; }
+
+.hero { display: block; margin: 0; padding: 0 0 6pt; border: 0; }
+h1 { font-size: 22pt; font-weight: 700; line-height: 1.1; }
+.tagline { margin: 4pt 0 6pt; font-size: 12pt; }
+.lead { max-width: none; }
+
+.sec { margin: 0; padding: 10pt 0 2pt; border: 0; }
+.sec-title { margin: 0 0 6pt; font-size: 12.5pt; font-weight: 700; letter-spacing: .02em; }
+.sec-title::after { border-top: 1px solid #999 !important; }
+.sec-note { margin: -2pt 0 6pt; font-size: 9.5pt; }
+
+.cards { gap: 6pt; }
+.cards--large { grid-template-columns: repeat(3, 1fr); }
+.cards--compact { grid-template-columns: repeat(2, 1fr); margin-top: 6pt; }
+.card, .card--large { padding: 5pt 7pt; border: 1px solid #999 !important; font-size: 9.5pt; line-height: 1.4; }
+.card h3, .card--large h3 { margin: 0 0 3pt; font-size: 10.5pt; font-weight: 700; }
+.card-note { font-size: 9pt; font-weight: 400; }
+
+.feature { padding: 6pt 8pt; border: 1px solid #999 !important; }
+.feature h3 { font-size: 13pt; font-weight: 700; }
+.feature-tag { margin: 2pt 0 4pt; font-size: 10pt; font-style: italic; }
+.feature p + p { margin-top: 4pt; }
+.side { margin-top: 6pt; }
+.side h3 { margin-bottom: 2pt; font-size: 11pt; font-weight: 700; }
+
+.tl-item, .skill-group, .contact-list li {
+  grid-template-columns: 36mm 1fr;
+  gap: 2pt 12pt;
+}
+.tl-item { padding: 0 0 6pt; }
+.tl-item + .tl-item { padding-top: 6pt; border-top: 1px dashed #bbb !important; }
+.tl-date, .contact-key, .skill-group dt { padding-top: 0; font-size: 9.5pt; }
+.tl-body h3 { margin: 0 0 3pt; font-size: 11pt; font-weight: 700; }
+.tl-org { font-size: 10pt; }
+.bullets li { padding-left: 14pt; }
+.bullets li + li { margin-top: 1pt; }
+
+.skills { gap: 4pt; }
+.chips { gap: 3pt; }
+.chips li { padding: 0 4pt; font-size: 9pt; border: 1px solid #999 !important; }
+
+.contact-list { gap: 2pt; }
+
+.footer {
+  display: block;
+  width: auto;
+  margin: 10pt 0 0;
+  padding: 6pt 0 0;
+  border-top: 1px solid #999 !important;
+  font-size: 8.5pt;
+}
+
+/* links: no underline; résumé links show where they go */
+
+a { text-decoration: none !important; }
+main a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; font-weight: 400; }
+/* contact links already read as the address: print it once, as a full URL */
+#contact a[href^="http"]::after { content: none; }
+#contact a[href^="http"]::before { content: "https://"; }
+
+/* page breaks */
+
+.hero, .tl-item, .card, .feature, .side, .skill-group, .contact-list li { break-inside: avoid; }
+h1, h2, h3, .sec-title, .sec-note { break-after: avoid; }
