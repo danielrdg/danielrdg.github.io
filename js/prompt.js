@@ -1,4 +1,5 @@
 import { runCommand } from './commands.js';
+import { complete } from './complete.js';
 import { t } from './copy.js';
 import { safe } from './safe.js';
 
@@ -65,6 +66,23 @@ export function initPrompt({ tracker, getLang, effects = {} }) {
       const raw = input.value;
       input.value = '';
       safe('prompt.submit', () => submit(raw));
+    });
+  }
+
+  if (input) {
+    input.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab' || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+      safe('prompt.complete', () => {
+        const { value, candidates } = complete(input.value);
+        if (candidates.length === 0) return;
+        e.preventDefault();
+        if (value !== input.value) {
+          input.value = value;
+          input.setSelectionRange(value.length, value.length);
+        } else if (candidates.length > 1) {
+          print(candidates.join('  '));
+        }
+      });
     });
   }
 
