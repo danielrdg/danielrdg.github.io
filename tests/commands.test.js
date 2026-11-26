@@ -96,3 +96,75 @@ test('never throws, tolerates missing ctx', () => {
   assert.doesNotThrow(() => runCommand('hint', {}));
   assert.deepEqual(runCommand('help').lines, run('help').lines);
 });
+
+const at = (cwd, lang = 'en') => ({ lang, found: [], cwd });
+
+test('cd returns the new cwd as an effect', () => {
+  assert.deepEqual(run('cd projects'), { lines: [], effect: 'cd', cwd: ['projects'] });
+  assert.deepEqual(run('cd projects/'), { lines: [], effect: 'cd', cwd: ['projects'] });
+  assert.deepEqual(run('cd ..', at(['projects'])), { lines: [], effect: 'cd', cwd: [] });
+  assert.deepEqual(run('cd', at(['projects'])), { lines: [], effect: 'cd', cwd: [] });
+  assert.deepEqual(run('cd ~', at(['academic'])), { lines: [], effect: 'cd', cwd: [] });
+  assert.deepEqual(run('CD  Academic', at([])), { lines: [], effect: 'cd', cwd: ['academic'] });
+});
+
+test('cd errors print a line and never move', () => {
+  const nf = run('cd nope');
+  assert.deepEqual(nf, { lines: [t('en', 'fs.notfound', { cmd: 'cd', path: 'nope' })] });
+  assert.deepEqual(run('cd about.txt'), { lines: [t('en', 'fs.notdir', { cmd: 'cd', path: 'about.txt' })] });
+  assert.deepEqual(run('cd a b'), { lines: [t('en', 'fs.toomany', { cmd: 'cd' })] });
+});
+
+test('cd outside the home tells the joke, which is not an egg', () => {
+  for (const arg of ['/', '/etc', '..', '../..']) {
+    const r = run(`cd ${arg}`);
+    assert.deepEqual(r, { lines: [t('en', 'fs.outside')] }, arg);
+    assert.equal(r.egg, undefined);
+  }
+  assert.deepEqual(run('cd /', ctx('pt')).lines, [t('pt', 'fs.outside')]);
+  assert.notEqual(t('pt', 'fs.outside'), t('en', 'fs.outside'));
+});
+
+test('pwd', () => {
+  assert.deepEqual(run('pwd'), { lines: ['/home/guest'] });
+  assert.deepEqual(run('pwd', at(['projects'])), { lines: ['/home/guest/projects'] });
+});
+
+test('ls lists the cwd or the given dir', () => {
+  assert.deepEqual(run('ls', at(['academic'])), { lines: ['iacc.txt  histoteria.txt'] });
+  assert.deepEqual(run('ls academic'), { lines: ['iacc.txt  histoteria.txt'] });
+  assert.deepEqual(run('ls ..', at(['academic'])), run('ls'));
+  assert.deepEqual(run('ls about.txt'), { lines: ['about.txt'] });
+  assert.deepEqual(run('ls nope'), { lines: [t('en', 'fs.notfound', { cmd: 'ls', path: 'nope' })] });
+  assert.deepEqual(run('ls /'), { lines: [t('en', 'fs.outside')] });
+});
+
+test('cat on a selector file returns the cat effect with the node', () => {
+  const r = run('cat maitre.txt', at(['projects']));
+  assert.deepEqual(r.lines, []);
+  assert.equal(r.effect, 'cat');
+  assert.equal(r.file.selector, '#fs-maitre');
+  assert.equal(r.egg, undefined);
+  assert.deepEqual(run('cat projects/maitre.txt'), r);
+  assert.deepEqual(run('cat ~/academic/iacc.txt', at(['projects'])).file.selector, '#fs-iacc');
+});
+
+test('cat copy files keep their old output, from anywhere by path', () => {
+  assert.deepEqual(run('cat ~/about.txt', at(['projects'])), run('cat about.txt'));
+  assert.deepEqual(run('cat about.txt', ctx('pt')), { lines: flat(t('pt', 'cmd.about')) });
+  const s = run('cat ../secrets.env', at(['projects']));
+  assert.deepEqual(s, { lines: flat(t('en', 'egg.secrets')), egg: 'secrets' });
+});
+
+test('cat errors', () => {
+  assert.deepEqual(run('cat projects'), { lines: [t('en', 'fs.isdir', { cmd: 'cat', path: 'projects' })] });
+  assert.deepEqual(run('cat about.txt', at(['projects'])), { lines: [t('en', 'fs.notfound', { cmd: 'cat', path: 'about.txt' })] });
+  assert.deepEqual(run('cat'), { lines: [t('en', 'fs.missing', { cmd: 'cat' })] });
+  assert.deepEqual(run('cat /etc/passwd'), { lines: [t('en', 'fs.outside')] });
+  assert.equal(run('cat /etc/passwd').egg, undefined);
+});
+
+test('fs errors truncate a long path', () => {
+  const r = run(`cd ${'z'.repeat(500)}`);
+  assert.equal(r.lines[0], t('en', 'fs.notfound', { cmd: 'cd', path: `${'z'.repeat(60)}…` }));
+});

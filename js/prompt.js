@@ -2,8 +2,9 @@ import { runCommand } from './commands.js';
 import { tabAction } from './complete.js';
 import { t } from './copy.js';
 import { safe } from './safe.js';
+import { pathLabel, wrap } from './fs.js';
 
-const PS = 'daniel@portfolio:~$';
+const CAT_WIDTH = 72;
 const ECHO_MAX = 60;
 const LOG_MAX = 50;
 
@@ -13,6 +14,15 @@ export function initPrompt({ tracker, getLang, effects = {} }) {
   const log = document.getElementById('prompt-log');
   const toggle = document.getElementById('prompt-toggle');
   const counter = document.getElementById('egg-count');
+  const psLabel = form ? form.querySelector('.prompt-ps') : null;
+  let cwd = [];
+
+  const ps = () => `daniel@portfolio:${pathLabel(cwd)}$`;
+
+  function setCwd(next) {
+    cwd = next;
+    if (psLabel) psLabel.textContent = ps();
+  }
 
   function append(text, cls) {
     if (!log) return;
@@ -39,16 +49,22 @@ export function initPrompt({ tracker, getLang, effects = {} }) {
 
   function submit(raw) {
     const echo = raw.trim();
-    append(`${PS} ${echo.length > ECHO_MAX ? `${echo.slice(0, ECHO_MAX)}…` : echo}`, 'prompt-echo');
+    append(`${ps()} ${echo.length > ECHO_MAX ? `${echo.slice(0, ECHO_MAX)}…` : echo}`, 'prompt-echo');
 
     const found = tracker && typeof tracker.found === 'function' ? tracker.found() : [];
-    const res = runCommand(raw, { lang: getLang(), found });
+    const res = runCommand(raw, { lang: getLang(), found, cwd });
 
     if (res.effect === 'lang-pt' || res.effect === 'lang-en') {
       effect(res.effect);
       print([t(getLang(), 'cmd.lang')]);
     } else if (res.effect === 'clear') {
       clear();
+    } else if (res.effect === 'cd') {
+      setCwd(res.cwd);
+    } else if (res.effect === 'cat') {
+      const el = res.file && res.file.selector ? document.querySelector(res.file.selector) : null;
+      const lines = el ? wrap(el.textContent, CAT_WIDTH) : [];
+      print(lines.length ? lines : [t(getLang(), 'fs.notfound', { cmd: 'cat', path: raw.trim().split(/\s+/).pop().slice(0, 60) })]);
     } else {
       print(res.lines);
       if (res.effect) effect(res.effect);
@@ -75,7 +91,7 @@ export function initPrompt({ tracker, getLang, effects = {} }) {
     input.addEventListener('keydown', (e) => {
       if (e.key !== 'Tab' || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey || e.isComposing) return;
       safe('prompt.complete', () => {
-        const action = tabAction(input.value, lastListedFor);
+        const action = tabAction(input.value, lastListedFor, cwd);
         if (action.kind === 'pass') return;
         e.preventDefault();
         if (action.kind === 'complete') {
