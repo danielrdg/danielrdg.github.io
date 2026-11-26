@@ -117,3 +117,15 @@ test('tabAction uses the cwd and still lists once', () => {
   assert.equal(tabAction('cd ', 'cd ').kind, 'pass');
   assert.equal(tabAction('cd experience/', null).kind, 'pass');
 });
+
+test('no candidate ever starts with an egg command', () => {
+  const eggs = ['/lounge', 'sudo', 'rm -rf', 'git push', 'drop table'];
+  const inputs = ['', 'c', 'ca', 'cat ', 'cat s', 'cat ../', 'cd ', 'cd ../', 'ls ', 'ls ~/', 'l', 's', 'su', 'r', 'rm', 'g', 'd', 'dr', '/', '/l', 'h', 'cat ~/s'];
+  const cwds = [[], ['projects'], ['experience'], ['academic']];
+  for (const cwd of cwds) {
+    for (const input of inputs) {
+      const all = [...complete(input, cwd).candidates, ...(tabAction(input, null, cwd).candidates || [])];
+      for (const c of all) assert.ok(!eggs.some((e) => c.startsWith(e)), `${input} @ ${cwd.join('/')}: ${c}`);
+    }
+  }
+});

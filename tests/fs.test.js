@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { TREE, resolve, list, nodeAt, pathLabel, wrap } from '../js/fs.js';
+import { TREE, resolve, list, nodeAt, pathLabel, fileLines } from '../js/fs.js';
 import { COPY } from '../js/copy.js';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
@@ -80,10 +80,35 @@ test('every selector is non-empty, unique, and an id found exactly once in index
   }
 });
 
-test('wrap keeps words whole within the width', () => {
-  assert.deepEqual(wrap('  a   b\n c  ', 72), ['a b c']);
-  const lines = wrap('word '.repeat(40), 20);
-  assert.ok(lines.length > 1 && lines.every((l) => l.length <= 20));
-  assert.deepEqual(wrap('x'.repeat(30), 10), ['x'.repeat(30)]);
-  assert.deepEqual(wrap('', 72), []);
+const el = (tagName, className, ...kids) => {
+  const children = kids.filter((k) => typeof k !== 'string');
+  const own = kids.filter((k) => typeof k === 'string').join(' ');
+  const node = { tagName, className, children };
+  Object.defineProperty(node, 'textContent', { get: () => [own, ...children.map((c) => c.textContent)].join(' ') });
+  return node;
+};
+
+test('fileLines: timeline item puts title, then dates, then bullets', () => {
+  const li = el('LI', 'tl-item',
+    el('P', 'tl-date', 'May 2026 –\n  present'),
+    el('DIV', 'tl-body',
+      el('H3', '', el('SPAN', '', 'Software Engineer I'), el('SPAN', 'tl-org', '· Aegro')),
+      el('UL', 'bullets', el('LI', '', 'Build   things.'), el('LI', '', 'Ship them.'))));
+  assert.deepEqual(fileLines(li), [
+    'Software Engineer I · Aegro', 'May 2026 – present', '', '• Build things.', '• Ship them.',
+  ]);
+});
+
+test('fileLines: card and feature keep one line per paragraph', () => {
+  assert.deepEqual(fileLines(el('ARTICLE', 'card', el('H3', '', 'Error janitor'), el('P', '', 'Reads errors.'))),
+    ['Error janitor', '', 'Reads errors.']);
+  const feature = el('ARTICLE', 'feature',
+    el('H3', '', el('A', '', 'maître ↗')), el('P', 'feature-tag', 'your lounge'), el('P', '', 'One.'), el('P', '', 'Two.'));
+  assert.deepEqual(fileLines(feature), ['maître ↗', 'your lounge', '', 'One.', 'Two.']);
+});
+
+test('fileLines falls back to the whole text and tolerates junk', () => {
+  assert.deepEqual(fileLines(el('DIV', '', '  just   text ')), ['just text']);
+  assert.deepEqual(fileLines(null), []);
+  assert.deepEqual(fileLines(el('DIV', '', el('P', '', '   '))), []);
 });

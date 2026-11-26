@@ -168,3 +168,9 @@ test('fs errors truncate a long path', () => {
   const r = run(`cd ${'z'.repeat(500)}`);
   assert.equal(r.lines[0], t('en', 'fs.notfound', { cmd: 'cd', path: `${'z'.repeat(60)}…` }));
 });
+
+test('dot-dot inside a path', () => {
+  assert.deepEqual(run('cat projects/../about.txt'), run('cat about.txt'));
+  assert.deepEqual(run('cd ../../projects', at(['academic'])), { lines: [t('en', 'fs.outside')] });
+  assert.deepEqual(run('cd ../projects', at(['academic'])), { lines: [], effect: 'cd', cwd: ['projects'] });
+});

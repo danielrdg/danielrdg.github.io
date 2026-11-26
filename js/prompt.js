@@ -2,9 +2,8 @@ import { runCommand } from './commands.js';
 import { tabAction } from './complete.js';
 import { t } from './copy.js';
 import { safe } from './safe.js';
-import { pathLabel, wrap } from './fs.js';
+import { pathLabel, fileLines } from './fs.js';
 
-const CAT_WIDTH = 72;
 const ECHO_MAX = 60;
 const LOG_MAX = 50;
 
@@ -63,7 +62,7 @@ export function initPrompt({ tracker, getLang, effects = {} }) {
       setCwd(res.cwd);
     } else if (res.effect === 'cat') {
       const el = res.file && res.file.selector ? document.querySelector(res.file.selector) : null;
-      const lines = el ? wrap(el.textContent, CAT_WIDTH) : [];
+      const lines = fileLines(el).map((l) => l || ' ');
       print(lines.length ? lines : [t(getLang(), 'fs.notfound', { cmd: 'cat', path: raw.trim().split(/\s+/).pop().slice(0, 60) })]);
     } else {
       print(res.lines);

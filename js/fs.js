@@ -82,17 +82,37 @@ export function pathLabel(path) {
   return Array.isArray(path) && path.length ? `~/${path.join('/')}` : '~';
 }
 
-export function wrap(text, width = 72) {
-  const lines = [];
-  let line = '';
-  for (const word of String(text).split(/\s+/).filter(Boolean)) {
-    if (line && line.length + 1 + word.length > width) {
-      lines.push(line);
-      line = word;
-    } else {
-      line = line ? `${line} ${word}` : word;
-    }
+const BLOCKS = new Set(['H3', 'H4', 'P', 'LI', 'DT', 'DD']);
+const META = ['tl-date', 'feature-tag'];
+
+const squash = (s) => String(s ?? '').replace(/\s+/g, ' ').trim();
+
+function blocks(node, out = []) {
+  for (const kid of Array.from(node.children || [])) {
+    if (BLOCKS.has(String(kid.tagName).toUpperCase())) out.push(kid);
+    else blocks(kid, out);
   }
-  if (line) lines.push(line);
-  return lines;
+  return out;
+}
+
+export function fileLines(el) {
+  if (!el) return [];
+  const head = [];
+  const meta = [];
+  const body = [];
+  for (const b of blocks(el)) {
+    const text = squash(b.textContent);
+    if (!text) continue;
+    const tag = String(b.tagName).toUpperCase();
+    const cls = String(b.className || '').split(/\s+/);
+    if (tag === 'H3' || tag === 'H4' || tag === 'DT') head.push(text);
+    else if (META.some((m) => cls.includes(m))) meta.push(text);
+    else body.push(tag === 'LI' ? `• ${text}` : text);
+  }
+  if (!head.length && !meta.length && !body.length) {
+    const text = squash(el.textContent);
+    return text && !blocks(el).length ? [text] : [];
+  }
+  const top = [...head, ...meta];
+  return top.length && body.length ? [...top, '', ...body] : [...top, ...body];
 }
