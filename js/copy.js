@@ -95,7 +95,6 @@ const EN = {
   'room.skills': 'Jukebox: the pantry',
   'room.contact': 'Door: say hello',
   'room.bell': 'Bell: ring for service',
-  'room.enter': 'Open',
   'room.hint': 'click or tab through the room · esc to leave',
   'room.close': 'Close',
 
@@ -187,7 +186,6 @@ const PT = {
   'room.skills': 'Jukebox: a despensa',
   'room.contact': 'Porta: diga oi',
   'room.bell': 'Sino: chame o garçom',
-  'room.enter': 'Abrir',
   'room.hint': 'clique ou use tab pelo salão · esc pra sair',
   'room.close': 'Fechar',
 

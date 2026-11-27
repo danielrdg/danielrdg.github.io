@@ -38,7 +38,7 @@ const on = (id, type, fn) => {
 
 const site = {
   tracker: null,
-  lounge: { on() {}, off() {}, isOn() { return false; }, ring() {} },
+  lounge: { on() {}, off() {}, isOn() { return false; }, ring() {}, openSection() { return false; } },
   prompt: { print() {}, clear() {} },
   announceEgg(id) {
     if (!site.tracker || !site.tracker.find(id)) return;
@@ -76,6 +76,7 @@ safe('boot.prompt', () => {
       'lang-en': () => applyLang('en'),
       clear: () => site.prompt.clear(),
       contact: () => {
+        if (window.__site.lounge.isOn() && window.__site.lounge.openSection('contact')) return;
         const contact = byId('contact');
         if (!contact) return;
         contact.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });

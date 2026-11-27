@@ -1,7 +1,7 @@
 /* Lounge: the room overlay. Screen only: printing from the lounge falls back to the plain résumé. */
 
 @media screen {
-  html.room-lock, html.room-lock body { overflow: hidden; }
+  html.room-lock { overflow: hidden; overscroll-behavior: none; }
 
   /* menu labels: same headings, menu wording */
 
@@ -15,7 +15,8 @@
   html.lounge #bell { border-color: var(--pink); color: var(--cream); }
   html.lounge #lights-on:hover, html.lounge #bell:hover { background: var(--lacquer); }
   html.lounge #bell.bell--ringing { border-color: var(--light); color: var(--light); background: var(--lacquer); }
-  html.lounge #prompt-log { max-height: 3.4em; }
+  html.lounge #prompt-log { max-height: 13em; }
+  html.lounge :is(#replay-btn, .status-run .status-sep.js-only) { display: none; }
 
   /* the room */
 

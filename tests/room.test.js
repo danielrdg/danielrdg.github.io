@@ -43,7 +43,7 @@ test('each section appears exactly once; bell has none', () => {
 });
 
 test('every labelKey and the room keys exist in en and pt', () => {
-  const keys = [...OBJECTS.map((o) => o.labelKey), 'room.enter', 'room.hint', 'room.close'];
+  const keys = [...OBJECTS.map((o) => o.labelKey), 'room.hint', 'room.close'];
   for (const lang of ['en', 'pt']) {
     for (const k of keys) assert.ok(typeof COPY[lang][k] === 'string' && COPY[lang][k].length > 0, `${lang} ${k}`);
   }

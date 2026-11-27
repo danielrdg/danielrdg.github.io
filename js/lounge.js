@@ -121,7 +121,7 @@ export function initLounge({ announceEgg, print, getLang }) {
     backdrop.hidden = true;
     backdrop.addEventListener('click', () => safe('lounge.backdrop', () => closeCard(true)));
 
-    const dialog = el('div', '', { id: 'room-card', role: 'dialog', 'aria-modal': 'true' });
+    const dialog = el('div', '', { id: 'room-card', role: 'dialog' });
     dialog.hidden = true;
     const close = el('button', 'room-card-close', { type: 'button' });
     close.textContent = '✕';
@@ -181,18 +181,16 @@ export function initLounge({ announceEgg, print, getLang }) {
     });
   }
 
-  function promptLineHeight() {
+  function promptHeight() {
     const prompt = document.getElementById('prompt');
-    if (!visible(prompt)) return 0;
-    const log = document.getElementById('prompt-log');
-    return prompt.offsetHeight - (log ? log.offsetHeight : 0);
+    return visible(prompt) ? prompt.offsetHeight : 0;
   }
 
   function layout() {
     if (!ui || ui.room.hidden) return;
     const { room, stage, canvas, dark } = ui;
     const narrow = window.innerWidth < LIST_BELOW_W;
-    room.style.bottom = `${narrow ? 0 : promptLineHeight()}px`;
+    room.style.bottom = `${narrow ? 0 : promptHeight()}px`;
 
     const pad = narrow ? 16 : 24;
     const hintH = 28;
@@ -545,7 +543,18 @@ export function initLounge({ announceEgg, print, getLang }) {
       safe('lounge.esc', () => leave('esc'));
     }
   });
-  window.addEventListener('beforeprint', () => safe('lounge.beforeprint', () => closeCard(false)));
+  let printedCard = null;
+  window.addEventListener('beforeprint', () => safe('lounge.beforeprint', () => {
+    printedCard = card ? card.obj.id : null;
+    closeCard(false);
+  }));
+  window.addEventListener('afterprint', () => safe('lounge.afterprint', () => {
+    const id = printedCard;
+    printedCard = null;
+    if (!id || !active) return;
+    const target = returnTarget(id);
+    if (target) target.focus({ preventScroll: true });
+  }));
   onLangChange(() => safe('lounge.lang', relabel));
   if (motionQuery && typeof motionQuery.addEventListener === 'function') {
     motionQuery.addEventListener('change', () => safe('lounge.motion.change', onMotionChange));
@@ -556,5 +565,11 @@ export function initLounge({ announceEgg, print, getLang }) {
     off: () => leave('api'),
     isOn: () => active,
     ring,
+    openSection(id) {
+      const obj = OBJECTS.find((o) => o.section === id);
+      if (!active || !obj) return false;
+      openCard(obj);
+      return !!card;
+    },
   };
 }
