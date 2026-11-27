@@ -27,7 +27,7 @@ body * { font-family: inherit !important; }
 
 /* no chrome, no eggs, no lounge */
 
-#run, #status, #prompt, #prompt-toggle, footer button, #neon-sign, #bell, #lights-on,
+#run, #room, #status, #prompt, #prompt-toggle, footer button, #neon-sign, #bell, #lights-on,
 .egg-layer, #long-shift, .js-only, .cta, .avatar {
   display: none !important;
 }
