@@ -24,6 +24,7 @@ export function createRoomRenderer(canvas, { reducedMotion = false } = {}) {
   let rafId = 0;
   let last = -Infinity;
   let lastT = STILL_T;
+  let destroyed = false;
 
   function staticLayer() {
     if (!layer) {
@@ -50,7 +51,7 @@ export function createRoomRenderer(canvas, { reducedMotion = false } = {}) {
   }
 
   function schedule() {
-    if (rafId || !started || reducedMotion || document.hidden) return;
+    if (destroyed || rafId || !started || reducedMotion || document.hidden) return;
     last = -Infinity;
     rafId = requestAnimationFrame(tick);
   }
@@ -68,11 +69,13 @@ export function createRoomRenderer(canvas, { reducedMotion = false } = {}) {
   document.addEventListener('visibilitychange', onVisibility);
 
   function renderOnce() {
+    if (destroyed) return;
     paint(reducedMotion ? STILL_T : lastT);
   }
 
   return {
     start() {
+      if (destroyed) return;
       if (reducedMotion) {
         renderOnce();
         return;
@@ -86,11 +89,13 @@ export function createRoomRenderer(canvas, { reducedMotion = false } = {}) {
     },
     isRunning: () => rafId !== 0,
     setHighlight(id) {
+      if (destroyed) return;
       highlight = (id && OBJECTS.find((o) => o.id === id)) || null;
       if (!rafId) renderOnce();
     },
     renderOnce,
     destroy() {
+      destroyed = true;
       started = false;
       unschedule();
       document.removeEventListener('visibilitychange', onVisibility);
